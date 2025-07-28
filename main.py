@@ -1,36 +1,28 @@
 import os
 import time
 from dotenv import load_dotenv
+from pumpfun_client import PumpFunClient
+from solana_wallet import PhantomTrader
+
+load_dotenv()
 
 class AlphaBladePumpSniper:
     def __init__(self):
-        load_dotenv()
-        self.wallet = os.getenv("PHANTOM_WALLET_PRIVATE_KEY")
+        self.wallet_key = os.getenv("PHANTOM_WALLET_PRIVATE_KEY")
         self.amount = float(os.getenv("TRADE_AMOUNT", "0.1"))
-        self.risk_mode = os.getenv("RISK_MODE", "aggressive")
-
-    def scan_tokens(self):
-        print("🔍 Scanning for new tokens on Pump.fun...")
-        # Simulated detection logic
-        return "SOL-NEW-TOKEN"
-
-    def buy_token(self, token):
-        print(f"💸 Buying token {token} using Phantom wallet...")  # Replace with real logic
-
-    def start_sniping(self):
-        while True:
-            token = self.scan_tokens()
-            if token:
-                self.buy_token(token)
-            time.sleep(3)
+        self.client = PumpFunClient()
+        self.trader = PhantomTrader(self.wallet_key)
+        self.filter_mode = os.getenv("FILTER_MODE", "safe")
+        print(f"🚀 Pump Sniper running on wallet: {self.trader.get_address()}")
 
     def run(self):
-        if not self.wallet:
-            raise ValueError("❌ Wallet private key not found in .env file. Please set PHANTOM_WALLET_PRIVATE_KEY.")
-        print(f"🚀 Pump Sniper running on wallet: {self.wallet[:6]}...{self.wallet[-4:]}")
-        self.start_sniping()
+        while True:
+            token = self.client.find_profitable_token(self.filter_mode)
+            if token:
+                print(f"💸 Attempting to snipe: {token['name']} ({token['address']})")
+                self.trader.buy_token(token['address'], self.amount)
+            time.sleep(3)
 
 if __name__ == "__main__":
-    print("✅ Bot started...")
     bot = AlphaBladePumpSniper()
     bot.run()
