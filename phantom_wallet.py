@@ -1,16 +1,12 @@
 
-import random
-
-class PhantomWallet:
+class PhantomTrader:
     def __init__(self):
-        self.balance = 100
+        pass  # Initialize with private key or wallet integration
 
-    def buy_token(self, token):
-        print(f"Buying token {token} using Phantom wallet...")
-        return f"tx_{token}_{random.randint(1000,9999)}"
+    def buy_token(self, token_address):
+        # Replace with real logic to buy on Pump.fun
+        return f"txid_buy_{token_address}"
 
-    def sell_token(self, token):
-        print(f"Selling token {token} from Phantom wallet...")
-
-    def get_token_price(self, token):
-        return random.uniform(0.8, 1.2)
+    def track_profit_and_sell(self, token_address, sl, tp, tsl):
+        # Replace with real on-chain monitoring and sell logic
+        print(f"🔒 Watching {token_address} - SL: {sl}, TP: {tp}, TSL: {tsl}")

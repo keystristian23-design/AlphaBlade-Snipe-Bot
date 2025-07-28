@@ -1,59 +1,34 @@
 
 import requests
-import json
 import time
-from phantom_wallet import PhantomWallet
+from phantom_wallet import PhantomTrader
 
 class TradeEngine:
-    def __init__(self):
-        self.wallet = PhantomWallet()
-        self.sl_percentage = 0.15
-        self.tp_percentage = 0.30
-        self.trailing_buffer = 0.05
+    def __init__(self, sl=0.1, tp=0.3, tsl=0.15):
+        self.trader = PhantomTrader()
+        self.stop_loss = sl
+        self.take_profit = tp
+        self.trailing_stop = tsl
 
     def detect_token(self):
+        print("🔍 Fetching trending tokens from Pump.fun...")
         try:
-            res = requests.get("https://pump.fun/api/trending")
-            tokens = res.json()
+            response = requests.get("https://pump.fun/api/trending")
+            tokens = response.json()
             if tokens:
-                token = tokens[0]['id']
-                print(f"📈 Detected new token: {token}")
-                return token
+                token_address = tokens[0].get("mint")  # Select the top trending token
+                print(f"✅ Detected token: {token_address}")
+                return token_address
         except Exception as e:
-            print(f"❌ Detection error: {e}")
+            print(f"❌ Error fetching tokens: {e}")
         return None
 
-    def execute_trade(self, token):
-        print(f"💸 Buying {token}...")
-        buy_tx = self.wallet.buy_token(token)
-        if buy_tx:
-            print(f"✅ Bought {token}. TX: {buy_tx}")
+    def execute_trade(self, token_address):
+        print(f"💸 Executing trade for {token_address} via Phantom...")
+        tx = self.trader.buy_token(token_address)
+        print(f"✅ Buy transaction submitted: {tx}")
+        self.monitor_position(token_address)
 
-            buy_price = self.wallet.get_token_price(token)
-            target_price = buy_price * (1 + self.tp_percentage)
-            stop_loss_price = buy_price * (1 - self.sl_percentage)
-            trail_stop = None
-
-            while True:
-                current_price = self.wallet.get_token_price(token)
-                print(f"📊 {token} price: {current_price}")
-
-                if current_price >= target_price:
-                    print("🎯 Target price hit. Selling...")
-                    self.wallet.sell_token(token)
-                    break
-
-                if current_price <= stop_loss_price:
-                    print("🛑 Stop loss hit. Selling...")
-                    self.wallet.sell_token(token)
-                    break
-
-                if trail_stop is None or current_price > trail_stop:
-                    trail_stop = current_price * (1 - self.trailing_buffer)
-
-                elif current_price <= trail_stop:
-                    print("📉 Trailing stop triggered. Selling...")
-                    self.wallet.sell_token(token)
-                    break
-
-                time.sleep(5)
+    def monitor_position(self, token_address):
+        print(f"📊 Monitoring {token_address} for SL/TP/TSL...")
+        self.trader.track_profit_and_sell(token_address, self.stop_loss, self.take_profit, self.trailing_stop)
