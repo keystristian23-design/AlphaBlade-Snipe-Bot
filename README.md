@@ -1,3 +1,3 @@
-# AlphaBlade Pump Sniper Bot
+# AlphaBlade Pump Sniper
 
-Live-ready bot for trading meme coins on Pump.fun.
+Live bot for trading meme coins on Pump.fun using Phantom wallet.
