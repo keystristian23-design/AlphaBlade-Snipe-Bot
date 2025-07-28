@@ -1,3 +1,3 @@
 # AlphaBlade Pump Sniper
 
-Live bot for trading meme coins on Pump.fun using Phantom wallet.
+Live-ready Solana meme coin sniping bot for Pump.fun.
