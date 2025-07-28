@@ -1,3 +1,9 @@
-# AlphaBlade Pump Sniper
+# AlphaBlade Pump Sniper Bot
 
-Live bot for trading meme coins on Pump.fun using Phantom wallet.
+Fully optimized bot for Pump.fun trading via Phantom wallet.
+
+Features:
+- Real-time token detection
+- Auto buy/sell logic
+- Stop loss, take profit, trailing stop
+- Render-ready deployment

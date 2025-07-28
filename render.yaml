@@ -1,6 +1,6 @@
 services:
   - type: worker
-    name: alpha-pump-sniper
+    name: alphablade-pump-sniper
     env: python
     buildCommand: pip install -r requirements.txt
     startCommand: python main.py
