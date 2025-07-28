@@ -1,5 +1,2 @@
-
-python-dotenv
 requests
-solana
-solders
+python-dotenv
