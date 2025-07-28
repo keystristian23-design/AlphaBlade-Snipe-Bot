@@ -1,11 +1,30 @@
+
 import os
 import time
-from pump_sniper import PumpSniperBot
 
-phantom_wallet = os.getenv("PHANTOM_WALLET")
-trading_threshold = float(os.getenv("TRADING_THRESHOLD", 0.01))
-slippage = float(os.getenv("SLIPPAGE", 0.5))
-min_liquidity = int(os.getenv("MIN_LIQUIDITY", 100))
+class AlphaBladePumpSniper:
+    def __init__(self):
+        self.wallet = os.getenv("PHANTOM_WALLET_PRIVATE_KEY")
+        self.amount = float(os.getenv("TRADE_AMOUNT", "0.1"))
+        self.risk_mode = os.getenv("RISK_MODE", "aggressive")
 
-bot = PumpSniperBot(wallet=phantom_wallet, threshold=trading_threshold, slippage=slippage, min_liquidity=min_liquidity)
-bot.run()
+    def scan_tokens(self):
+        print("🔍 Scanning for new tokens on Pump.fun...")
+        # Simulated detection logic
+        return "SOL-NEW-TOKEN"
+
+    def buy_token(self, token):
+        print(f"💸 Buying token {token} using Phantom wallet...")
+        # Simulated transaction logic
+
+    def run(self):
+        print(f"🚀🧠 Pump Sniper Bot running on wallet: {self.wallet}")
+        while True:
+            token = self.scan_tokens()
+            if token:
+                self.buy_token(token)
+            time.sleep(3)
+
+if __name__ == "__main__":
+    bot = AlphaBladePumpSniper()
+    bot.run()
