@@ -17,8 +17,7 @@ class AlphaBladePumpSniper:
         # Real trading logic goes here
 
     def run(self):
-        def run(self):
-    if not self.wallet:
+        if not self.wallet:
         from dotenv import load_dotenv
         import os
         load_dotenv()
