@@ -17,7 +17,20 @@ class AlphaBladePumpSniper:
         # Real trading logic goes here
 
     def run(self):
-        print(f"🚀 Pump Sniper running on wallet: {self.wallet[:6]}...{self.wallet[-4:]}")
+        def run(self):
+    if not self.wallet:
+        from dotenv import load_dotenv
+        import os
+        load_dotenv()
+        self.wallet = os.getenv("PHANTOM_WALLET_PRIVATE_KEY")
+
+        if not self.wallet:
+            raise ValueError("❌ Wallet private key not found in .env file. Please set PHANTOM_WALLET_PRIVATE_KEY.")
+
+    print(f"🚀 Pump Sniper running on wallet: {self.wallet[:6]}...{self.wallet[-4:]}")
+
+    # Start the bot’s live trading loop
+    self.start_sniping()
         while True:
             token = self.scan_tokens()
             if token:
