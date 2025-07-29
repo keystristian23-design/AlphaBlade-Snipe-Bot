@@ -1,1 +1,1 @@
-# Placeholder for gas and slippage optimization utilities
+# Utility functions for Solana RPC, transaction signing, etc.
